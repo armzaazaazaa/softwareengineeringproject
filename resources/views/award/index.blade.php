@@ -11,9 +11,11 @@
 
         <!-- Main content -->
         <section class="content">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box">
+            <div class="box">
+                <div class="row">
+
+                    <div class="col-md-12">
+
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/Index/home" class="logo">กลับไปหน้าหลัก</a></li>
                             <li class="breadcrumb-item"><a href="/admin/award">จัดการรางวัล</a></li>
@@ -74,9 +76,9 @@
 @section('javascript')
     <script type="text/javascript">
         function deleteBranch(id) {
-            if(confirm("Do you want to delete this branch?")){
+            if (confirm("Do you want to delete this branch?")) {
                 var form = document.getElementById('deleteBranch');
-                form.setAttribute('action',"/admin/award/"+id+"/delete")
+                form.setAttribute('action', "/admin/award/" + id + "/delete")
                 form.submit()
             }
         }

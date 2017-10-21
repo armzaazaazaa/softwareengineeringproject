@@ -34,6 +34,7 @@ class projectcontroller extends Controller
 
     public function store(Request $request) /*เพิ่มโครงงาน*/
     {
+        $file = $request->file('image1');;
         $data = New Project();
         $projectType = New ProjectType();
        /* $awards = New Awards();*/

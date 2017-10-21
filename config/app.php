@@ -166,7 +166,7 @@ return [
         /*
          * Package Service Providers...
          */
-        'Artisaninweb\SoapWrapper\ServiceProvider',
+        Artisaninweb\SoapWrapper\ServiceProvider::class,
         //
 
         /*
@@ -225,7 +225,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'SoapWrapper' => 'Artisaninweb\SoapWrapper\Facade',
+        'SoapWrapper' => Artisaninweb\SoapWrapper\Facade::class,
 
     ],
 

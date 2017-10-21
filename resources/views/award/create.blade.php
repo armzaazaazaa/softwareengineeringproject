@@ -31,7 +31,7 @@
                                     <label class="col-sm-2 control-label">ชื่อรางวัลา</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text"
+                                        <input required type="text"
                                                name="award[name_award]"
                                                value=""
                                                class="form-control" placeholder="ชื่อสาขา">
@@ -41,7 +41,7 @@
                                     <label class="col-sm-2 control-label">ปีรางวัล</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text"
+                                        <input required type="text"
                                                name="award[year_award]"
                                                value=""
                                                class="form-control" placeholder="ชื่อสาขา">
@@ -51,7 +51,7 @@
                                     <label class="col-sm-2 control-label">ที่รางวัล</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text"
+                                        <input required type="text"
                                                name="award[number]"
                                                value=""
                                                class="form-control" placeholder="ชื่อสาขา">

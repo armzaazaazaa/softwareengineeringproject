@@ -47,7 +47,7 @@
                                         <td></td>
                                         <td>
                                             <a href="/admin/advisor/{{$data->id}}/edit" class="btn btn-success">แก้ไข</a>
-                                            <button onclick="deleteBranch({{$data->id}})" type="button"
+                                            <button  onclick="/*myFunction(),*/deleteBranch({{$data->id}})" type="button"
                                                     class="btn btn-danger">ลบ
                                             </button>
                                         </td>
@@ -72,11 +72,16 @@
 @section('javascript')
     <script type="text/javascript">
         function deleteBranch(id) {
-            if(confirm("Do you want to delete this branch?")){
+            if(confirm("คุณต้องการจะลบใช้หรือไม่?")){
                 var form = document.getElementById('deleteBranch');
                 form.setAttribute('action',"/admin/branch/"+id+"/delete")
                 form.submit()
             }
         }
     </script>
+   {{-- <script>
+        function myFunction() {
+            confirm("คุณต้องการจะลบใช้หรือไม่!");
+        }
+    </script>--}}
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Advisor;
 use App\Models\Awards;
@@ -37,9 +38,11 @@ class ProjectsController extends Controller
         $awards = Awards::all();
         $adviser = Advisor::all();
         $years = Year::all();
+        $user = User::select('name' , 'id' ,'username')->get();
 
         return view('project.create')
-            ->with(['project_type' => $project_types , 'awards' => $awards, 'adviser'=> $adviser, 'years'=>$years ]);
+            ->with(['project_type' => $project_types , 'awards' => $awards,
+                'adviser'=> $adviser, 'years'=>$years, 'users'=>$user ]);
 
     }
 
@@ -51,6 +54,9 @@ class ProjectsController extends Controller
      */
     public function store(Request $request)
     {
+
+        dd($request->all());
+
         $new_project = new Project();
         $new_project->fill($request->all());
         $new_project->save();

@@ -26,7 +26,7 @@
                                     <label class="col-sm-2 control-label">ชื่ออาจารย์ที่ปรึกษา</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text"
+                                        <input required type="text"
                                                name="year[name]"
                                                value=""
                                                class="form-control" placeholder="ชื่ออาจารย์ที่ปรึกษา">

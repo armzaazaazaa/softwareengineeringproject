@@ -18,11 +18,23 @@ Route::get('/', function () {
     return view('welcome');
 
 });
+Route::get('/test2', function () {
+    return redirect('/Index/home');
+});
 
 
 Route::get('/admin', function () {
     return view('admin.index');
 });
+Auth::routes();
+//---------------------
+Route::post('/register/up', 'Auth\RegisterController@registerUP');
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect('/Index/home');
+});
+
+
 /*
 
 Route::get('/admin/user', function () {
@@ -87,26 +99,26 @@ Route::post('/admin/user/create', function ( AdminUserRequest  $request) {
 */
 
 
-Route::get('/login', function () {
-    return view('Index/login');
-});
-
-Route::post('/login', function (Request $request) {
-    $email = $request->get('email');
-    $password = $request->get('password');
-
-    $hash_password = \Hash::make($password);
-    if (Auth::attempt(['email' => $email, 'password' => $password])) {
-        return view('/Index/home');
-    }
-    else{
-        return redirect('login')
-            ->withErrors([
-                'loginError' => '123'
-            ]);
-    }
-
-});
+//Route::get('/login', function () {
+//    return view('Index/login');
+//});
+//
+//Route::post('/login', function (Request $request) {
+//    $email = $request->get('email');
+//    $password = $request->get('password');
+//
+//    $hash_password = \Hash::make($password);
+//    if (Auth::attempt(['email' => $email, 'password' => $password])) {
+//        return view('/Index/home');
+//    }
+//    else{
+//        return redirect('login')
+//            ->withErrors([
+//                'loginError' => '123'
+//            ]);
+//    }
+//
+//});
 
 /////////////////////////////////////////////////////////////////////////
 Route::get('/test', function () {
@@ -170,3 +182,4 @@ Route::post('/admin/project/save', "ProjectsController@store");
 Route::get('/admin/project/{id}/edit', "ProjectsController@edit");
 Route::post('/admin/project/{id}/edit', "ProjectsController@postEdit");
 Route::post('/admin/project/{id}/delete', "ProjectsController@postDelete");
+
