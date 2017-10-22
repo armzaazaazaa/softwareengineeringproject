@@ -22,15 +22,48 @@
                                 <div class="timeline-item">
 
 
-                                    <h3 class="timeline-header"><B>ชื่อโครงงาน Project name</B></h3>
+                                    <h3 class="timeline-header"><B>ชื่อโครงงาน {{$project->name_project_th}}
+                                            ({{$project->name_project_eng}})</B></h3>
 
                                     <div class="timeline-body">
 
-                                        <div><B>ประเภทโครงงาน </B> 213</div>
-                                        <div><B>ปีการศึกษาที่สอบผ่าน </B> 213</div>
-                                        <div><B>ปีการศึกษาที่สอบผ่าน </B> 213</div>
-                                        <div><B>อาจารย์ที่ปรึกษา </B> 213</div>
-                                        <div><B>รางวัลที่ได้รับ </B> 213</div>
+                                        <div><B>ประเภทโครงงาน </B>
+                                            @if(isset($project->projectType->name))
+                                                {{$project->projectType->name}}
+                                            @endif
+                                        </div>
+                                        <div><B>ปีการศึกษาที่สอบผ่าน </B>
+                                            @if(isset($project->year))
+                                                {{$project->year}}
+                                            @endif
+                                        </div>
+                                        <div><B>อาจารย์ที่ปรึกษา </B>
+                                            @if(isset($project->advisors))
+                                                @foreach($project->advisors as $advisor)
+                                                    @if($advisor->status == \App\Models\ProjectAdvisor::STATUS_MAIN)
+                                                        {{$advisor->advisorDetail->name}}
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                        <div><B>อาจารย์ที่ปรึกษารอง </B>
+                                            @if(isset($project->advisors))
+                                                @foreach($project->advisors as $advisor)
+                                                    @if($advisor->status == \App\Models\ProjectAdvisor::STATUS_SUB)
+                                                        {{$advisor->advisorDetail->name}}
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                        <div><B>รางวัลที่ได้รับ </B>
+                                            @if(isset($project->awards))
+                                                @foreach($project->awards as $award)
+                                                    ชื่อราววัล {{$award->awardDetail->name_award}} <br>
+                                                    ที่ {{$award->awardDetail->number}} <br>
+                                                    ปี {{$award->awardDetail->year_award}}  <br>
+                                                @endforeach
+                                            @endif
+                                        </div>
 
 
                                     </div>
@@ -40,11 +73,17 @@
 
                             <li>
                                 <i class="fa fa-user bg-aqua"></i>
-
                                 <div class="timeline-item">
-
-
                                     <h3 class="timeline-header no-border"><B>สมาชิกโครงงาน Project member</B></h3>
+                                    <div class="timeline-body">
+                                        <ul>
+                                            @if(isset($project->members))
+                                                @foreach($project->members as $member)
+                                                    <li>{{$member->memberDetail->name}}</li>
+                                                @endforeach
+                                            @endif
+                                        </ul>
+                                    </div>
                                 </div>
                             </li>
                             <li>
@@ -52,33 +91,19 @@
 
                                 <div class="timeline-item">
 
-
                                     <h3 class="timeline-header"><B>รูปโครงงาน Project Image</B></h3>
 
                                     <div class="timeline-body">
                                         <!-- Swiper -->
                                         <div class="swiper-container">
                                             <div class="swiper-wrapper">
-                                                <div class="swiper-slide"
-                                                     style="background-image:url(http://lorempixel.com/600/600/nature/1)"></div>
-                                                <div class="swiper-slide"
-                                                     style="background-image:url(http://lorempixel.com/600/600/nature/2)"></div>
-                                                <div class="swiper-slide"
-                                                     style="background-image:url(http://lorempixel.com/600/600/nature/3)"></div>
-                                                <div class="swiper-slide"
-                                                     style="background-image:url(http://lorempixel.com/600/600/nature/4)"></div>
-                                                <div class="swiper-slide"
-                                                     style="background-image:url(http://lorempixel.com/600/600/nature/5)"></div>
-                                                <div class="swiper-slide"
-                                                     style="background-image:url(http://lorempixel.com/600/600/nature/6)"></div>
-                                                <div class="swiper-slide"
-                                                     style="background-image:url(http://lorempixel.com/600/600/nature/7)"></div>
-                                                <div class="swiper-slide"
-                                                     style="background-image:url(http://lorempixel.com/600/600/nature/8)"></div>
-                                                <div class="swiper-slide"
-                                                     style="background-image:url(http://lorempixel.com/600/600/nature/9)"></div>
-                                                <div class="swiper-slide"
-                                                     style="background-image:url(http://lorempixel.com/600/600/nature/10)"></div>
+                                                @if(isset($project->image))
+                                                    @foreach($project->image as $image)
+                                                        <div class="swiper-slide"
+                                                             style="background-image:url('/images/uploads/{{$image->name_image}}')"></div>
+                                                    @endforeach
+                                                @endif
+
                                             </div>
                                             <!-- Add Pagination -->
                                             <div class="swiper-pagination"></div>
@@ -100,9 +125,10 @@
                                     </div>
                                     <div class="timeline-footer">
 
-                                            <a class="btn btn-warning btn-flat btn-xs">ดาวน์โหลดเอกสารโครงงาน</a>
+                                        <a class="btn btn-warning btn-flat btn-xs" href="{{$project->paths->path_doc}}" target="_blank">ดาวน์โหลดเอกสารโครงงาน</a>
                                         @if(isset(\Illuminate\Support\Facades\Auth::user()->id))
-                                            <a class="btn btn-warning btn-flat btn-xs">ดาวน์โหลดไฟล์โปรเจค</a>
+                                            <a class="btn btn-warning btn-flat btn-xs"
+                                               href="{{$project->paths->path_program}}" target="_blank">ดาวน์โหลดไฟล์โปรเจค</a>
                                         @endif
 
                                     </div>
@@ -164,28 +190,32 @@
             }
         }
 
-        var myId = getId("{{$url}}");
+
+                @if (isset($project->paths->path_vdo))
+        var myId = getId("{{$project->paths->path_vdo}}");
 
         if (myId !== 'error') {
             $('#youtube_em').html('<iframe class="embed-responsive-item" src="//www.youtube.com/embed/' + myId + '" frameborder="0" allowfullscreen></iframe>');
         }
+                @endif
+
 
         var swiper = new Swiper('.swiper-container', {
-            effect: 'coverflow',
-            grabCursor: true,
-            centeredSlides: true,
-            slidesPerView: 'auto',
-            coverflowEffect: {
-                rotate: 50,
-                stretch: 0,
-                depth: 100,
-                modifier: 1,
-                slideShadows: true,
-            },
-            pagination: {
-                el: '.swiper-pagination',
-            },
-        });
+                effect: 'coverflow',
+                grabCursor: true,
+                centeredSlides: true,
+                slidesPerView: 'auto',
+                coverflowEffect: {
+                    rotate: 50,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: true,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+            });
     </script>
 
     <style>

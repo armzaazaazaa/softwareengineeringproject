@@ -136,7 +136,13 @@ class ProjectsController extends Controller
     {
 //        dd($id);
         $url = "https://www.youtube.com/watch?v=FsJZH3DLjC0";
-        return view('project.index' , ['url' => $url]);
+        $project = Project::query()
+            ->with(['members.memberDetail' , 'awards.awardDetail' , 'advisors.advisorDetail' , 'paths' , 'image' , 'projectType'])
+            ->where('id' , $id)
+            ->first();
+
+
+        return view('project.index' , ['project' => $project]);
     }
 
     /**

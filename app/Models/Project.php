@@ -22,7 +22,24 @@ class Project extends Model
 
     public function awards()
     {
-        return $this->hasMany(Awards::class,'project_id');
+        return $this->hasMany(ProjectAward::class,'project_id');
     }
+
+    public function members()
+    {
+        return $this->hasMany(UserProject::class,'project_id');
+    }
+
+
+    public function advisors()
+    {
+        return $this->hasMany(ProjectAdvisor::class,'project_id');
+    }
+
+    public function paths()
+    {
+        return $this->hasOne(Paths::class,'project_id');
+    }
+
 
 }
