@@ -138,6 +138,7 @@ Route::get('/Index/show_search', "SEProjectController@getshow_search");
 Route::get('/Manage_project/create_project', "projectcontroller@index");
 Route::get('/Manage_project/edit/{id}', "SEProjectController@getedit");
 Route::get('/Manage_project/getShow_project', "projectcontroller@getShow_project");
+
 /*END Manage_project */
 //////////////////////////////โจัดการโครงงาน///////////////////////////////////////////
 Route::post('/savecreate', "projectcontroller@store"); /*เพิ่มโครงงาน*/
@@ -178,6 +179,7 @@ Route::post('/admin/award/{id}/delete', "AwardController@postDelete");
 ////////////////////////////////////////////////////////////////////////////////
 Route::get('/admin/project/create', "ProjectsController@create");
 Route::post('/admin/project/create', "ProjectsController@postCreate");
+Route::get('/admin/project/{id}' , "ProjectsController@show");
 Route::post('/admin/project/save', "ProjectsController@store");
 Route::get('/admin/project/{id}/edit', "ProjectsController@edit");
 Route::post('/admin/project/{id}/edit', "ProjectsController@postEdit");

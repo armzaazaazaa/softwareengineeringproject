@@ -24,6 +24,9 @@
     <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
     <link rel="stylesheet" href="/css/jquery.fileupload.css">
 
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="/dist/swiper/css/swiper.min.css">
+
 
 </head>
 {{--<body class="hold-transition skin-blue sidebar-mini">--}}{{--ปิดแทบข้าง--}}
@@ -258,6 +261,8 @@
 <script src="/js/jquery.fileupload-video.js"></script>
 <!-- The File Upload validation plugin -->
 <script src="/js/jquery.fileupload-validate.js"></script>
+<!-- Swiper JS -->
+<script src="/dist/swiper/js/swiper.min.js"></script>
 
 @yield('javascript')
 @yield('scripts')

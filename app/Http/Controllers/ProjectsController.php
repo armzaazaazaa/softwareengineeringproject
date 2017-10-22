@@ -118,7 +118,7 @@ class ProjectsController extends Controller
 
             DB::commit();
 
-            return redirect(url('seproject/' . $new_project->id));
+            return redirect(url('/admin/project/' . $new_project->id));
 
         } catch (Exception $exception) {
             DB::rollBack();
@@ -134,7 +134,9 @@ class ProjectsController extends Controller
      */
     public function show($id)
     {
-        //
+//        dd($id);
+        $url = "https://www.youtube.com/watch?v=FsJZH3DLjC0";
+        return view('project.index' , ['url' => $url]);
     }
 
     /**
