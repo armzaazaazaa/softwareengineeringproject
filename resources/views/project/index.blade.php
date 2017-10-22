@@ -119,13 +119,16 @@
                                     <h3 class="timeline-header"><B>บทคัดย่อโครงงาน Project Abstract</B></h3>
 
                                     <div class="timeline-body">
-                                        Take me to your leader!
-                                        Switzerland is small and neutral!
-                                        We are more like Germany, ambitious and misunderstood!
+                                        <span>
+                                            @if(isset($project->id_description))
+                                                {{$project->id_description}}
+                                            @endif
+                                        </span>
                                     </div>
                                     <div class="timeline-footer">
 
-                                        <a class="btn btn-warning btn-flat btn-xs" href="{{$project->paths->path_doc}}" target="_blank">ดาวน์โหลดเอกสารโครงงาน</a>
+                                        <a class="btn btn-warning btn-flat btn-xs" href="{{$project->paths->path_doc}}"
+                                           target="_blank">ดาวน์โหลดเอกสารโครงงาน</a>
                                         @if(isset(\Illuminate\Support\Facades\Auth::user()->id))
                                             <a class="btn btn-warning btn-flat btn-xs"
                                                href="{{$project->paths->path_program}}" target="_blank">ดาวน์โหลดไฟล์โปรเจค</a>
