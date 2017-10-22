@@ -145,7 +145,7 @@ Route::post('/savecreate', "projectcontroller@store"); /*เพิ่มโค�
 Route::post('/editproject/{id}', "projectcontroller@editproject"); /*แก้ไขโปรเจ็ค*/
 Route::get('/Manage_project/delete/{id}', "projectcontroller@destroy"); /*ลบโครงงาน*/
 /////////////////////////////////////////////////////////////////////////
-Route::post('/Index/home/search', "projectcontroller@search"); /*ค้นหา*/
+Route::post('/Index/home/search', "ProjectsController@search"); /*ค้นหา*/
 /////////////////////////////////////////////////////////////////////////
 Route::get('/admin/type', "TypeController@index");
 Route::get('/admin/type/create', "TypeController@create");

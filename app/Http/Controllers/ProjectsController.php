@@ -137,12 +137,12 @@ class ProjectsController extends Controller
 //        dd($id);
         $url = "https://www.youtube.com/watch?v=FsJZH3DLjC0";
         $project = Project::query()
-            ->with(['members.memberDetail' , 'awards.awardDetail' , 'advisors.advisorDetail' , 'paths' , 'image' , 'projectType'])
-            ->where('id' , $id)
+            ->with(['members.memberDetail', 'awards.awardDetail', 'advisors.advisorDetail', 'paths', 'image', 'projectType'])
+            ->where('id', $id)
             ->first();
 
 
-        return view('project.index' , ['project' => $project]);
+        return view('project.index', ['project' => $project]);
     }
 
     /**
@@ -178,4 +178,70 @@ class ProjectsController extends Controller
     {
         //
     }
+
+    public function search(Request $request)
+    {
+        $award_count = 0;
+
+        $projectsBu = Project::query()
+            ->with(['members.memberDetail', 'awards.awardDetail', 'advisors.advisorDetail', 'paths', 'image', 'projectType']);
+
+        //search project type
+        if (isset($request->projecttype) && $request->projecttype != "-1") {
+            $projectsBu->whereHas('projectType', function ($query) use ($request) {
+                $query->where('id', $request->projecttype);
+            });
+        }
+
+        //search project award
+        if (isset($request->award) && $request->award != "-1") {
+            $projectsBu->whereHas('awards', function ($query) use ($request) {
+                $query->where('id', $request->award);
+            });
+        }
+
+        //search project year
+        if (isset($request->year) && $request->year != "-1") {
+            $projectsBu->where('year', $request->year);
+        }
+
+        //search project adviser
+        if (isset($request->adviser_id) && $request->adviser_id != "-1") {
+            $projectsBu->whereHas('advisors', function ($query) use ($request) {
+                $query->where('id', $request->award);
+                $query->where('status', ProjectAdvisor::STATUS_MAIN);
+            });
+        }
+
+        //search project
+        if (isset($request->projects) && $request->projects != "-1") {
+            $projectsBu->where('id', $request->projects);
+        }
+
+        $projects = $projectsBu
+            ->orderBy('id', 'DESC ')->get();
+
+        if (isset($projects) && count($projects) > 0) {
+            foreach ($projects as $project) {
+                if ($project && $project->awards) {
+                    if (count($project->awards) > 0) {
+                        $award_count += 1;
+                    }
+                }
+            }
+        }
+
+        $project_types = ProjectType::all();
+        $awards = Awards::all();
+        $advisor = Advisor::all();
+        $years = Year::all();
+        $projectAll = Project::all();
+
+        return view('Index.Home')
+            ->with(['projectHome' => $projects, 'countProject' => count($projects), 'countAwards' => $award_count
+                , 'project_type' => $project_types, 'awards' => $awards, 'adviser' => $advisor, 'years' => $years ,
+                'projectAll' => $projectAll]);
+
+    }
+
 }

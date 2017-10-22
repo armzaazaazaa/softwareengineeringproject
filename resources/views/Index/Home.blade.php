@@ -75,7 +75,8 @@
                             <div class="col-md-2 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label>ประเภทโครงงาน</label>
-                                    <select class="form-control" name="projecttype">
+                                    <select class="form-control" name="projecttype" id="projecttype">
+                                        <option value="-1">All</option>
                                         @foreach($project_type as $type)
                                             <option value="{{$type->id}}">{{$type->name}}</option>
                                         @endforeach
@@ -86,10 +87,10 @@
                             <div class="col-md-3 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label>รางวัลโครงงาน</label>
-                                    <select class="form-control" name="award_id">
+                                    <select class="form-control" name="award" id="award">
+                                        <option value="-1">All</option>
                                         @foreach($awards as $award)
                                             <option value="{{$award->id}}">{{$award->name_award}}</option>
-
                                         @endforeach
                                     </select>
                                 </div>
@@ -98,7 +99,8 @@
                             <div class="col-md-2 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label>ปีการศึกษา</label>
-                                    <select class="form-control" name="year">
+                                    <select class="form-control" name="year" id="year">
+                                        <option value="-1">All</option>
                                         @foreach($years as $year)
                                             <option value="{{$year->id}}">{{$year->name}}</option>
                                         @endforeach
@@ -109,7 +111,8 @@
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label>อาจารย์ที่ปรึกษา</label>
-                                    <select class="form-control" name="adviser_id">
+                                    <select class="form-control" name="adviser_id" id="adviser">
+                                        <option value="-1">All</option>
                                         @foreach($adviser as $advisors)
                                             <option value="{{$advisors->id}}">{{$advisors->name}}</option>
                                         @endforeach
@@ -118,14 +121,13 @@
                             </div>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <label>ชื่อนิสิต</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <div class="form-group">
                                     <label>ชื่อโครงงาน</label>
-                                    <input type="text" name="name_project" class="form-control">
+                                    <select class="form-control" name="projects" id="projects">
+                                        <option value="-1">All</option>
+                                        @foreach($projectAll as $project)
+                                            <option value="{{$project->id}}">{{$project->name_project_th}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
@@ -151,7 +153,7 @@
                             {{--php--}}
 
                             <div class="col-md-4">
-                                <a href="/seproject/{{$data->id}}">
+                                <a href="/admin/project/{{$data->id}}">
                                     <div class="box box-widget widget-user">
                                         <div class="widget-user-header bg-aqua-active">
 
@@ -208,6 +210,21 @@
 
                 <section class="content">
                 </section>
+            </section>
+        </section>
+    </div>
+    @push('scripts')
+        <script>
+            $(document).ready(function () {
+                $('#adviser').select2();
+                $('#year').select2();
+                $('#award').select2();
+                $('#projecttype').select2();
+                $('#projects').select2();
 
+
+            });
+        </script>
+    @endpush
 
 @endsection
