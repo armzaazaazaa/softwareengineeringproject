@@ -14,6 +14,7 @@ use App\Models\Project;
 use App\Models\ProjectType;
 use App\Models\UserProject;
 use App\Models\Year;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
 
@@ -134,15 +135,26 @@ class ProjectsController extends Controller
      */
     public function show($id)
     {
-//        dd($id);
-        $url = "https://www.youtube.com/watch?v=FsJZH3DLjC0";
+        $is_owner = false;
+
+        $user = Auth::user();
+        if (isset($user)) {
+            $userCheck = UserProject::query()
+                ->where('user_id', $user->id)
+                ->where('project_id', $id)
+                ->first();
+            if (isset($userCheck)) {
+                $is_owner = true;
+            }
+        }
+
         $project = Project::query()
-            ->with(['members.memberDetail', 'awards.awardDetail', 'advisors.advisorDetail', 'paths', 'image', 'projectType'])
+            ->with(['members.memberDetail', 'awards.awardDetail', 'advisors.advisorDetail', 'paths', 'image', 'projectType' , 'projectYear'])
             ->where('id', $id)
             ->first();
 
 
-        return view('project.index', ['project' => $project]);
+        return view('project.index', ['project' => $project, 'is_owner' => $is_owner]);
     }
 
     /**
@@ -153,7 +165,57 @@ class ProjectsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $is_owner = false;
+
+        $user = Auth::user();
+        if (isset($user)) {
+            $userCheck = UserProject::query()
+                ->where('user_id', $user->id)
+                ->where('project_id', $id)
+                ->first();
+            if (isset($userCheck)) {
+                $is_owner = true;
+            }
+        }
+        $project = Project::query()
+            ->with(['members.memberDetail', 'awards.awardDetail', 'advisors.advisorDetail', 'paths', 'image', 'projectType'])
+            ->where('id', $id)
+            ->first();
+
+        $project_user = UserProject::query()
+            ->where('project_id', $id)
+            ->pluck('user_id');
+
+        $project_adviser_sub = ProjectAdvisor::query()
+            ->where('project_id', $id)
+            ->where('status', ProjectAdvisor::STATUS_SUB)
+            ->pluck('advisor_id');
+
+        $project_adviser_main = ProjectAdvisor::query()
+            ->where('project_id', $id)
+            ->where('status', ProjectAdvisor::STATUS_MAIN)
+            ->pluck('advisor_id');
+
+        $project_award = ProjectAward::query()
+            ->where('project_id', $id)
+            ->pluck('award_id');
+
+        $project_types = ProjectType::all();
+        $awards = Awards::all();
+        $adviser = Advisor::all();
+        $years = Year::all();
+        $user = User::select('name', 'id', 'username')->get();
+
+
+        if (!$is_owner) {
+            return redirect("/admin/project/$id");
+        }
+
+        return view('project.edit')
+            ->with(['project_type' => $project_types, 'awards' => $awards,
+                'adviser' => $adviser, 'years' => $years, 'users' => $user, 'project' => $project,
+                'project_user' => $project_user, 'project_adviser_main' => $project_adviser_main,
+                'project_adviser_sub' => $project_adviser_sub , 'project_award' => $project_award]);
     }
 
     /**
@@ -184,7 +246,7 @@ class ProjectsController extends Controller
         $award_count = 0;
 
         $projectsBu = Project::query()
-            ->with(['members.memberDetail', 'awards.awardDetail', 'advisors.advisorDetail', 'paths', 'image', 'projectType']);
+            ->with(['members.memberDetail', 'awards.awardDetail', 'advisors.advisorDetail', 'paths', 'image', 'projectType' , 'projectYear']);
 
         //search project type
         if (isset($request->projecttype) && $request->projecttype != "-1") {
@@ -202,7 +264,9 @@ class ProjectsController extends Controller
 
         //search project year
         if (isset($request->year) && $request->year != "-1") {
-            $projectsBu->where('year', $request->year);
+            $projectsBu->whereHas('projectYear', function ($query) use ($request) {
+                $query->where('id', $request->year);
+            });
         }
 
         //search project adviser
@@ -239,9 +303,93 @@ class ProjectsController extends Controller
 
         return view('Index.Home')
             ->with(['projectHome' => $projects, 'countProject' => count($projects), 'countAwards' => $award_count
-                , 'project_type' => $project_types, 'awards' => $awards, 'adviser' => $advisor, 'years' => $years ,
+                , 'project_type' => $project_types, 'awards' => $awards, 'adviser' => $advisor, 'years' => $years,
                 'projectAll' => $projectAll]);
 
     }
+
+    public function postEdit(Request $request, $id)
+    {
+
+        try {
+            DB::beginTransaction();
+
+            $edit_project = Project::query()->where('id' , $id)->first();
+            $edit_project->fill($request->all());
+            $edit_project->save();
+
+            //--------------paths
+            if (isset($edit_project->id)) {
+                Paths::query()->where('project_id' , $id)->delete();
+                $path = new Paths();
+                $path->fill($request->all());
+                $path->project_id = $edit_project->id;
+                $path->save();
+            }
+
+            //----------
+            //create member
+            if (isset($request->member) && isset($edit_project->id)) {
+                UserProject::query()->where('project_id' , $id)->delete();
+                foreach ($request->member as $member) {
+                    $project_user = new UserProject();
+                    $project_user->project_id = $edit_project->id;
+                    $project_user->user_id = $member;
+                    $project_user->save();
+                }
+            }
+
+            //create main adviser
+            if (isset($request->adviser_id) && isset($edit_project->id)) {
+                ProjectAdvisor::query()
+                    ->where('project_id' , $id)
+                    ->where('status' , ProjectAdvisor::STATUS_MAIN)
+                    ->delete();
+
+                $project = new ProjectAdvisor();
+                $project->project_id = $edit_project->id;
+                $project->advisor_id = $request->adviser_id;
+                $project->status = ProjectAdvisor::STATUS_MAIN;
+                $project->save();
+
+            }
+
+            //create sub adviser
+            if (isset($request->advisers) && is_array($request->advisers) && isset($edit_project->id)) {
+                ProjectAdvisor::query()
+                    ->where('project_id' , $id)
+                    ->where('status' , ProjectAdvisor::STATUS_SUB)
+                    ->delete();
+
+                foreach ($request->advisers as $sub) {
+                    $project = new ProjectAdvisor();
+                    $project->project_id = $edit_project->id;
+                    $project->advisor_id = $sub;
+                    $project->status = ProjectAdvisor::STATUS_SUB;
+                    $project->save();
+                }
+            }
+
+            //create awards
+            if (isset($new_project->id) && isset($request->awards) && is_array($request->awards)) {
+                ProjectAward::query()->where('project_id' , $id)->delete();
+                foreach ($request->awards as $awards) {
+                    $project = new ProjectAward();
+                    $project->project_id = $edit_project->id;
+                    $project->award_id = $awards;
+                    $project->save();
+                }
+            }
+
+            DB::commit();
+
+            return redirect(url('/admin/project/' . $edit_project->id));
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+    }
+
 
 }

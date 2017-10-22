@@ -16,6 +16,10 @@ class Project extends Model
         return $this->belongsTo(ProjectType::class,'project_type_id','id');
     }
 
+    public function projectYear(){
+        return $this->belongsTo(Year::class,'year','id');
+    }
+
     public function image() {
         return $this->hasMany(Image::class,'projects_id');
     }

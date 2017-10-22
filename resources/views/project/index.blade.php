@@ -23,7 +23,11 @@
 
 
                                     <h3 class="timeline-header"><B>ชื่อโครงงาน {{$project->name_project_th}}
-                                            ({{$project->name_project_eng}})</B></h3>
+                                            ({{$project->name_project_eng}})</B>
+                                        @if($is_owner)
+                                            <a class="btn btn-primary" href="/admin/project/{{$project->id}}/edit"> แก้ไข </a>
+                                        @endif
+                                    </h3>
 
                                     <div class="timeline-body">
 
@@ -33,8 +37,8 @@
                                             @endif
                                         </div>
                                         <div><B>ปีการศึกษาที่สอบผ่าน </B>
-                                            @if(isset($project->year))
-                                                {{$project->year}}
+                                            @if(isset($project->projectYear))
+                                                {{$project->projectYear->name}}
                                             @endif
                                         </div>
                                         <div><B>อาจารย์ที่ปรึกษา </B>
