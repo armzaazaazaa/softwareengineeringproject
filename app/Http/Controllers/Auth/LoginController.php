@@ -135,14 +135,17 @@ class LoginController extends Controller
             'name' => $data['name'],
             'username' => $data['username'],
             'email' => $data['username'] . '@up.ac.th',
+            "course_code" => $data['course_code'],
+            "course_name" => $data['course_name'],
+            "faculty_code" => $data['faculty_code'],
+            "faculty_name" => $data['faculty_name'],
+            "role" => $data['role'],
         ]);
         $user->profiles = json_encode([
                 "UP" => $data['profiles']
             ]
         );
-        $user->save();
-
-
+        $user->save();;
         return $user;
     }
 
@@ -155,36 +158,48 @@ class LoginController extends Controller
             $studentInfo = $service->getStudentInfo($sid);
             $staffInfo = $service->getStaffInfo($sid);
 
-            if ($staffInfo->CitizenID) {
-                $staffInfo->name = $staffInfo->FirstName_TH . " " . $staffInfo->LastName_TH;
-                $user = $this->createUP([
-                    "name" => $staffInfo->name,
-                    "username" => $username,
-                    "profiles" => $staffInfo
-                ]);
-                event(new Registered($user));
+            if (isset($studentInfo->CourseCode) && $studentInfo->CourseCode == '210706055') {
+                if ($staffInfo->CitizenID) {
+                    $staffInfo->name = $staffInfo->FirstName_TH . " " . $staffInfo->LastName_TH;
+                    $user = $this->createUP([
+                        "name" => $staffInfo->name,
+                        "username" => $request->get('username'),
+                        "profiles" => $staffInfo,
+                        "course_code" => $staffInfo->CourseCode,
+                        "course_name" => $staffInfo->CourseName_EN,
+                        "faculty_code" => $staffInfo->FacultyCode,
+                        "faculty_name" => $staffInfo->FacultyName_EN,
+                        "role" => 'staff',
+                    ]);
+                    event(new Registered($user));
 
-                Auth::login($user);
+                    Auth::login($user);
 
 
-                $service->getLogOff($sid);
-                return true;
+                    $service->getLogOff($sid);
+                    return true;
 
-            } else if ($studentInfo->CitizenID) {
+                } else if ($studentInfo->CitizenID) {
 
-                $studentInfo->name = $studentInfo->FirstName_TH . " " . $studentInfo->LastName_TH;
-                $user = $this->createUP([
-                    "name" => $studentInfo->name,
-                    "username" => $username,
-                    "profiles" => $staffInfo
-                ]);
-                event(new Registered($user));
+                    $studentInfo->name = $studentInfo->FirstName_TH . " " . $studentInfo->LastName_TH;
+                    $user = $this->createUP([
+                        "name" => $studentInfo->name,
+                        "username" => $request->get('username'),
+                        "profiles" => $studentInfo,
+                        "course_code" => $studentInfo->CourseCode,
+                        "course_name" => $studentInfo->CourseName_EN,
+                        "faculty_code" => $studentInfo->FacultyCode,
+                        "faculty_name" => $studentInfo->FacultyName_EN,
+                        "role" => 'student',
+                    ]);
+                    event(new Registered($user));
 
-                Auth::login($user);
+                    Auth::login($user);
 
-                $service->getLogOff($sid);
+                    $service->getLogOff($sid);
 
-                return true;
+                    return true;
+                }
             }
         }
         return false;
