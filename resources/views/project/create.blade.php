@@ -109,23 +109,23 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">URLเก็บเอกสาร</label>
-                                    <input required class="form-control" id="exampleInputPassword1"
-                                           name="document_archive_url"
+                                    <label for="path_doc">URLเก็บเอกสาร</label>
+                                    <input required class="form-control" id="path_doc"
+                                           name="path_doc"
                                            placeholder="เช่น https://drive.google.com/file/....">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">URLเก็บโปรแกรม</label>
-                                    <input required class="form-control" id="exampleInputPassword1"
-                                           name="url_archive_program"
+                                    <label for="path_program">URLเก็บโปรแกรม</label>
+                                    <input required class="form-control" id="path_program"
+                                           name="path_program"
                                            placeholder="เช่น https://drive.google.com/file/....">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">embed เก็บไฟล์VDOyouTube</label>
-                                    <input required class="form-control" id="exampleInputPassword1"
-                                           name="embed_youTube"
+                                    <label for="path_vdo">embed เก็บไฟล์VDOyouTube</label>
+                                    <input required class="form-control" id="path_vdo"
+                                           name="path_vdo"
                                            placeholder="เช่น <iframe width=560 height=315 src=https://www.youtube.com/embed/CevxZvSJLk8 frameborder=0 allowfullscreen></iframe>">
                                 </div>
 
