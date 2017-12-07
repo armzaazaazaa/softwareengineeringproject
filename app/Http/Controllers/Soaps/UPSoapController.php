@@ -4,8 +4,8 @@
 namespace App\Http\Controllers;
 
 use Artisaninweb\SoapWrapper\SoapWrapper;
-use App\Soap\Request\GetConversionAmount;
-use App\Soap\Response\GetConversionAmountResponse;
+/*use App\Soap\Request\GetConversionAmount;
+use App\Soap\Response\GetConversionAmountResponse;*/
 
 class SoapController
 {

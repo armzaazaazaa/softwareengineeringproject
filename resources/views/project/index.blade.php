@@ -120,7 +120,7 @@
                             <li>
                                 <i class="fa fa-user bg-aqua"></i>
                                 <div class="timeline-item">
-                                    <h3 class="timeline-header no-border"><B>สมาชิกโครงงาน Project member</B></h3>
+                                    <h3 class="timeline-header no-border"><B>สมาชิกโครงงาน (Project member)</B></h3>
                                     <div class="timeline-body">
                                         <ul>
                                             @if(isset($project->members))
@@ -137,7 +137,7 @@
 
                                 <div class="timeline-item">
 
-                                    <h3 class="timeline-header"><B>รูปโครงงาน Project Image</B></h3>
+                                    <h3 class="timeline-header"><B>รูปโครงงาน( Project Image)</B></h3>
 
                                     <div class="timeline-body">
                                         <!-- Swiper -->
@@ -162,7 +162,7 @@
 
                                 <div class="timeline-item">
 
-                                    <h3 class="timeline-header"><B>บทคัดย่อโครงงาน Project Abstract</B></h3>
+                                    <h3 class="timeline-header"><B>บทคัดย่อโครงงาน (Project Abstract)</B></h3>
 
                                     <div class="timeline-body" style="height: 20vh;overflow-x: hidden;">
 
@@ -196,7 +196,7 @@
 
                                 <div class="timeline-item">
 
-                                    <h3 class="timeline-header"><B>วีดีโอโครงงาน Project vdo</B></h3>
+                                    <h3 class="timeline-header"><B>วีดีโอโครงงาน (Project vdo)</B></h3>
 
                                     <div class="timeline-body">
                                         <div class="embed-responsive embed-responsive-16by9" id="youtube_em"></div>
