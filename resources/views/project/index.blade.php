@@ -174,11 +174,12 @@
                                         </span>
                                     </div>
                                     <div class="timeline-footer">
+                                        @if(isset(\Illuminate\Support\Facades\Auth::user()->id))
 
                                         <a class="btn btn-warning btn-flat btn-xs" href="{{$project->paths->path_doc}}"
                                            target="_blank">ดาวน์โหลดเอกสารโครงงาน</a>
 
-                                        @if(isset(\Illuminate\Support\Facades\Auth::user()->id))
+                                       {{-- @if(isset(\Illuminate\Support\Facades\Auth::user()->id))--}}
                                             <a class="btn btn-warning btn-flat btn-xs"
                                                href="{{$project->paths->path_program}}" target="_blank">ดาวน์โหลดไฟล์โปรเจค</a>
                                         @endif
