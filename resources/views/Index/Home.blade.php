@@ -84,7 +84,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="col-md-2 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label>รางวัลโครงงาน</label>
                                     <select class="form-control" name="award" id="award">
@@ -162,18 +162,18 @@
                                             <h5 class="description-text">{{$data->name_project_eng}}</h5>
                                         </div>
                                         <div class="widget-user-image">
-                                            <img class="img-circle"
+                                            {{--<img class="img-circle"
                                                  src="/images/uploads/{{$data->image[0]['name_image']}}"
-                                                 alt="User Avatar">
+                                                 alt="User Avatar">--}}
                                         </div>
                                         <div class="box-footer">
                                             <div class="row">
-                                                <div class="col-sm-6 border-right">
+                                                {{--<div class="col-sm-6 border-right">
                                                     <div class="description-block">
                                                         <h5 class="description-header">ปี</h5>
-                                                        <span class="description-text">{{$data->year}}</span>
+                                                        <span class="description-text">{{$data->years}}</span>
                                                     </div>
-                                                </div>
+                                                </div>--}}
 
                                                 <div class="col-sm-6">
                                                     <div class="description-block">
@@ -228,3 +228,8 @@
     @endpush
 
 @endsection
+
+
+
+{{--
+php artisan serve --}}

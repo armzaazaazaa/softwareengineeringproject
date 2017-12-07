@@ -117,6 +117,17 @@ class ProjectsController extends Controller
                 }
             }
 
+            $files = $request->file('file');
+            if (isset($files) && count($files) > 0) {
+                foreach ($files as $file) {
+                    $request = $this->uploadFile($file);
+                    $image = new Image();
+                    $image->name_image = $request->name;
+                    $image->projects_id =  $new_project->id;
+                    $image->save();
+                }
+            }
+
             DB::commit();
 
             return redirect(url('/admin/project/' . $new_project->id));
@@ -145,6 +156,7 @@ class ProjectsController extends Controller
                 ->first();
             if (isset($userCheck)) {
                 $is_owner = true;
+
             }
         }
 
@@ -200,6 +212,7 @@ class ProjectsController extends Controller
             ->where('project_id', $id)
             ->pluck('award_id');
 
+
         $project_types = ProjectType::all();
         $awards = Awards::all();
         $adviser = Advisor::all();
@@ -210,7 +223,6 @@ class ProjectsController extends Controller
         if (!$is_owner) {
             return redirect("/admin/project/$id");
         }
-
         return view('project.edit')
             ->with(['project_type' => $project_types, 'awards' => $awards,
                 'adviser' => $adviser, 'years' => $years, 'users' => $user, 'project' => $project,
@@ -255,7 +267,9 @@ class ProjectsController extends Controller
             });
         }
 
+
         //search project award
+
         if (isset($request->award) && $request->award != "-1") {
             $projectsBu->whereHas('awards', function ($query) use ($request) {
                 $query->where('id', $request->award);
@@ -272,7 +286,7 @@ class ProjectsController extends Controller
         //search project adviser
         if (isset($request->adviser_id) && $request->adviser_id != "-1") {
             $projectsBu->whereHas('advisors', function ($query) use ($request) {
-                $query->where('id', $request->award);
+                $query->where('advisor_id',  $request->adviser_id);
                 $query->where('status', ProjectAdvisor::STATUS_MAIN);
             });
         }
@@ -301,6 +315,7 @@ class ProjectsController extends Controller
         $years = Year::all();
         $projectAll = Project::all();
 
+
         return view('Index.Home')
             ->with(['projectHome' => $projects, 'countProject' => count($projects), 'countAwards' => $award_count
                 , 'project_type' => $project_types, 'awards' => $awards, 'adviser' => $advisor, 'years' => $years,
@@ -318,6 +333,24 @@ class ProjectsController extends Controller
             $edit_project->fill($request->all());
             $edit_project->save();
 
+            $files = $request->file('file');
+            if (isset($files)) {
+
+                foreach ($files as $key => $file) {
+                    if (isset($request->check_file[$key])) {
+                        $old = Image::query()->where('name_image',$request->check_file[$key])->first();
+                        $response = $this->uploadFile($file);
+                        $old->name_image = $response->name;
+                        $old->save();
+                    }else {
+                        $response = $this->uploadFile($file);
+                        $image = new Image();
+                        $image->name_image = $response->name;
+                        $image->projects_id =  $edit_project->id;
+                        $image->save();
+                    }
+                }
+            }
             //--------------paths
             if (isset($edit_project->id)) {
                 Paths::query()->where('project_id' , $id)->delete();
@@ -389,6 +422,34 @@ class ProjectsController extends Controller
             DB::rollBack();
             throw $exception;
         }
+    }
+
+
+    public function getDelete($id)
+    {
+        Paths::query()->where('project_id' , $id)->delete();
+        ProjectAdvisor::query()->where('project_id' , $id)->delete();
+        ProjectAward::query()->where('project_id' , $id)->delete();
+        UserProject::query()->where('project_id' , $id)->delete();
+        Project::query()->where('id', $id)->delete();
+        return redirect('/Index/home');
+    }
+
+    private function uploadFile($file, $prefix = 'images/uploads', $name = null, $extension = null)
+    {
+        if ($extension == null) {
+            $extension = $file->getClientOriginalExtension();
+        }
+        if ($name == null) {
+            $name = uniqid() . (($extension != '') ? '.' . $extension : '');
+        } else if ($extension != '' && strpos($name, '.') === false) {
+            $name .= '.' . $extension;
+        }
+            $filePath =  $prefix . ((substr($prefix, -strlen($prefix)) === '/' || $prefix == '') ? '' : '/');
+
+            $res = $file->move(public_path() . '/' . $filePath, $name);
+
+        return (object)['status' => ($res) ? true : false, 'name' => $name];
     }
 
 

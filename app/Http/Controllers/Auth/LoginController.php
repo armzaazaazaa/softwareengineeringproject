@@ -71,6 +71,10 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
+        if ($this->attemptLoginUsername($request)){
+            return $this->sendLoginResponse($request);
+        }
+
         if ($this->attempLoginUP($request)) {
             return $this->sendLoginResponse($request);
         }
@@ -86,9 +90,7 @@ class LoginController extends Controller
     public function attempLoginUP(Request $request)
     {
 
-
         $service = new AuthenSoapService();
-
         $login = $request->all();
         $username = $login['email'];
         $password = $login['password'];
@@ -96,6 +98,7 @@ class LoginController extends Controller
         $sid = $service->getSID($username, $password);
 
         if ($sid == "") {
+
             return false;
         } else {
             $staffInfoResult = $service->getStaffInfo($sid);
@@ -163,7 +166,7 @@ class LoginController extends Controller
                     $staffInfo->name = $staffInfo->FirstName_TH . " " . $staffInfo->LastName_TH;
                     $user = $this->createUP([
                         "name" => $staffInfo->name,
-                        "username" => $request->get('username'),
+                        "username" => $request->get('email'),
                         "profiles" => $staffInfo,
                         "course_code" => $staffInfo->CourseCode,
                         "course_name" => $staffInfo->CourseName_EN,
@@ -184,7 +187,7 @@ class LoginController extends Controller
                     $studentInfo->name = $studentInfo->FirstName_TH . " " . $studentInfo->LastName_TH;
                     $user = $this->createUP([
                         "name" => $studentInfo->name,
-                        "username" => $request->get('username'),
+                        "username" => $request->get('email'),
                         "profiles" => $studentInfo,
                         "course_code" => $studentInfo->CourseCode,
                         "course_name" => $studentInfo->CourseName_EN,

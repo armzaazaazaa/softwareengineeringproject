@@ -42,7 +42,7 @@
                                 <!-- /.box-body -->
                                 <div class="box-footer">
                                     <button type="submit" class="btn btn-info">ตกลง</button>
-                                    <button type="submit" class="btn btn-default">ยกเลิก</button>
+                                    <button  type="submit" class="btn btn-default">ยกเลิก</button>
                                 </div>
                                 <!-- /.box-footer -->
                             </div>
@@ -56,7 +56,6 @@
     </section>
     <!-- /.content -->
     </div>
-
 @endsection
 
 @section('javascript')

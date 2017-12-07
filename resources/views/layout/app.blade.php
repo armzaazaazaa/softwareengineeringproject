@@ -16,11 +16,12 @@
             src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet"/>
 
     <!-- Bootstrap styles -->
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
     <link rel="stylesheet" href="/css/jquery.fileupload.css">
 
@@ -77,24 +78,27 @@
                                             <li class="active"><a href="/Index/home"><i class="fa  fa-archive"></i>HOME</a>
                                             </li>
                                             </br>
-                                            <li class="active"><a href="/Manage_project/create_project"><i
+                                            {{--<li class="active"><a href="/Manage_project/create_project"><i
                                                             class="fa  fa-archive"></i>จัดการโครงงาน</a></li>
-                                            </br>
+                                            </br>--}}
                                             <li class="active"><a href="/admin/project/create"><i
                                                             class="fa  fa-archive"></i>เพิ่มโครงงาน</a></li>
                                             </br>
-                                            <li class="active"><a href="/admin/type"><i class="fa  fa-server"></i>จัดการประเภทโครงงาน</a>
-                                            </li>
-                                            </br>
-                                            <li class="active"><a href="/admin/advisor"><i class="fa  fa-users"></i>จัดการอาจารย์ที่ปรึกษา</a>
-                                            </li>
-                                            </br>
-                                            <li class="active"><a href="/admin/award"><i class="fa fa-trophy"></i>จัดการรางวัล</a>
-                                            </li>
-                                            </br>
-                                            <li class="active"><a href="/admin/year"><i class="fa fa-trophy"></i>จัดการปี</a>
-                                            </li>
-                                            </br>
+
+                                            @if(Auth::user()->role == 'admin')
+                                                <li class="active"><a href="/admin/type"><i class="fa  fa-server"></i>จัดการประเภทโครงงาน</a>
+                                                </li>
+                                                </br>
+                                                <li class="active"><a href="/admin/advisor"><i class="fa  fa-users"></i>จัดการอาจารย์ที่ปรึกษา</a>
+                                                </li>
+                                                </br>
+                                                <li class="active"><a href="/admin/award"><i class="fa fa-trophy"></i>จัดการรางวัล</a>
+                                                </li>
+                                                </br>
+                                                <li class="active"><a href="/admin/year"><i class="fa fa-trophy"></i>จัดการปี</a>
+                                                </li>
+                                                </br>
+                                            @endif
 
                                             {{-- <li><a href="/Index/home"><i class="fa fa-circle-o"></i> HOME </a></li>--}}
 

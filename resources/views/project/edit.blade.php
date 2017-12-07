@@ -135,25 +135,69 @@
                                 </div>
 
 
-                                <div class="form-group">
-                                    <label for="fileupload">รูปภาพตัวอยางโครงงาน</label>
+                                <div class="form-group image-upload">
+                                    {{--------1--}}
+                                    @if(count($project->image)  > 0)
+                                        <input type="file" name="file[0]" id="profile-img0" value="/images/uploads/{{$project->image[1]->name_image}}">
+                                        <img src="/images/uploads/{{$project->image[0]->name_image}}" class="img-up" id="profile-img-tag0" width="200px" />
+                                        <input type="hidden" name="check_file[0]" value="{{$project->image[0]->name_image}}">
+                                        @else
+                                        <input type="file" name="file[0]" id="profile-img0" >
+                                        <img src="" class="img-up" id="profile-img-tag0" width="200px" style="display:none" />
+                                    @endif
+                                    {{------------------2---------------}}
 
-                                    <input id="img" type="file" name="img">
-                                    <span class="btn btn-success fileinput-button">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                        <span>Add files...</span>
-                                        <!-- The file input field used as target for the file upload widget -->
-                                        <input id="fileupload" type="file" name="files[]" multiple>
-                                    </span>
-                                    <!-- The container for the uploaded files -->
-                                    <div id="files" class="files"></div>
-
-                                    {{--<div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Check me out
-                                        </label>
-                                    </div>--}}
-
+                                    @if(count($project->image) > 1)
+                                        <input type="file" name="file[1]" id="profile-img1" value="/images/uploads/{{$project->image[1]->name_image}}">
+                                        <img src="/images/uploads/{{$project->image[1]->name_image}}" class="img-up" id="profile-img-tag1" width="200px" />
+                                        <input type="hidden" name="check_file[1]" value="{{$project->image[1]->name_image}}">
+                                    @else
+                                        @if(count($project->image)  == 1)
+                                            <input type="file" name="file[1]" id="profile-img1">
+                                        @else
+                                            <input type="file" name="file[1]" id="profile-img1" style="display:none">
+                                        @endif
+                                        <img src="" class="img-up" id="profile-img-tag1" width="200px" style="display:none" />
+                                    @endif
+                                    {{------------------3---------------}}
+                                    @if(count($project->image) > 2)
+                                        <input type="file" name="file[2]" id="profile-img2" value="{{$project->image[2]->name_image}}" >
+                                        <img src="/images/uploads/{{$project->image[2]->name_image}}" class="img-up" id="profile-img-tag2" width="200px" />
+                                        <input type="hidden" name="check_file[2]" value="{{$project->image[2]->name_image}}">
+                                    @else
+                                        @if(count($project->image)  == 2)
+                                            <input type="file" name="file[2]" id="profile-img2">
+                                        @else
+                                            <input type="file" name="file[2]" id="profile-img2" style="display:none">
+                                        @endif
+                                        <img src="" class="img-up" id="profile-img-tag2" width="200px" style="display:none" />
+                                    @endif
+                                    {{------------------4---------------}}
+                                    @if(count($project->image) > 3)
+                                        <input type="file" name="file[3]" id="profile-img3"  value="{{$project->image[3]->name_image}}">
+                                        <img src="/images/uploads/{{$project->image[3]->name_image}}" class="img-up" id="profile-img-tag3" width="200px" />
+                                        <input type="hidden" name="check_file[3]" value="{{$project->image[3]->name_image}}">
+                                    @else
+                                        @if(count($project->image)  == 3)
+                                            <input type="file" name="file[3]" id="profile-img3">
+                                        @else
+                                            <input type="file" name="file[3]" id="profile-img3" style="display:none">
+                                        @endif
+                                        <img src="" class="img-up" id="profile-img-tag3" width="200px" style="display:none" />
+                                    @endif
+                                    {{------------------5---------------}}
+                                    @if(count($project->image) > 4)
+                                        <input type="file" name="file[4]" id="profile-img4" value="{{$project->image[4]->name_image}}">
+                                        <img src="/images/uploads/{{$project->image[4]->name_image}}" class="img-up" id="profile-img-tag4" width="200px" />
+                                        <input type="hidden" name="check_file[4]" value="{{$project->image[4]->name_image}}">
+                                    @else
+                                        @if(count($project->image)  == 4)
+                                            <input type="file" name="file[4]" id="profile-img4">
+                                        @else
+                                            <input type="file" name="file[4]" id="profile-img4" style="display:none">
+                                        @endif
+                                        <img src="" class="img-up" id="profile-img-tag4" width="200px" style="display:none" />
+                                    @endif
 
                                 </div>
                                 <!-- /.box-body -->
@@ -173,8 +217,53 @@
 
 
     @push('scripts')
-        <script>
-            $(document).ready(function () {
+            <style>
+            .img-up {
+                margin-bottom: 10px;
+            }
+            </style>
+
+            <script type="text/javascript">
+
+                $(document).ready(function () {
+
+                    function readURL(input,index) {
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                $('#profile-img-tag'+index).css('display', "block");
+                                $('#profile-img-tag'+index).attr('src', e.target.result);
+                            }
+                            reader.readAsDataURL(input.files[0]);
+
+                            var new_index = index + 1;
+                            if (new_index < 5) {
+                                $('#profile-img'+new_index).css('display', "block");
+                                $('#profile-img-tag'+new_index).css('display', "block");
+                            }
+
+                        }
+                    }
+
+                    $('#profile-img0').change(function(){
+                        readURL(this,0);
+                    });
+
+                    $('#profile-img1').change(function(){
+                        readURL(this,1);
+                    });
+
+                    $('#profile-img2').change(function(){
+                        readURL(this,2);
+                    });
+
+                    $('#profile-img3').change(function(){
+                        readURL(this,3);
+                    });
+
+                    $('#profile-img4').change(function(){
+                        readURL(this,4);
+                    });
 
                 $('#year').val("{{$project->year}}");
                 $('#adviser_main').val({{$project_adviser_main}});

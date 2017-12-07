@@ -24,7 +24,7 @@ class Project extends Model
         return $this->hasMany(Image::class,'projects_id');
     }
 
-    public function awards()
+    public function awards()//*******************
     {
         return $this->hasMany(ProjectAward::class,'project_id');
     }

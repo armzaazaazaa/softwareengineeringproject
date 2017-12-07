@@ -152,6 +152,7 @@ class projectcontroller extends Controller
 
     public function search(Request $request) {
 
+
         $type_project = $request->get('type_project');
         $name_project = $request->get('name_project');
         $award_count = 0;

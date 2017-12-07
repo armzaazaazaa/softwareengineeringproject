@@ -183,5 +183,5 @@ Route::get('/admin/project/{id}' , "ProjectsController@show");
 Route::post('/admin/project/save', "ProjectsController@store");
 Route::get('/admin/project/{id}/edit', "ProjectsController@edit");
 Route::post('/admin/project/{id}/edit', "ProjectsController@postEdit");
-Route::post('/admin/project/{id}/delete', "ProjectsController@postDelete");
+Route::get('/admin/project/{id}/delete', "ProjectsController@getDelete");
 
