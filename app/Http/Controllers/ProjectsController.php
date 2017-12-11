@@ -271,11 +271,10 @@ class ProjectsController extends Controller
         //search project award
 
         if (isset($request->award) && $request->award != "-1") {
-            $projectsBu->whereHas('awards', function ($query) use ($request) {
-                $query->where('id', $request->award);
+            $projectsBu->whereHas('awards.awardDetail', function ($query) use ($request) {
+                $query->where('award_id', $request->award);
             });
         }
-
         //search project year
         if (isset($request->year) && $request->year != "-1") {
             $projectsBu->whereHas('projectYear', function ($query) use ($request) {
@@ -299,6 +298,7 @@ class ProjectsController extends Controller
         $projects = $projectsBu
             ->orderBy('id', 'DESC ')->get();
 
+
         if (isset($projects) && count($projects) > 0) {
             foreach ($projects as $project) {
                 if ($project && $project->awards) {
@@ -314,7 +314,6 @@ class ProjectsController extends Controller
         $advisor = Advisor::all();
         $years = Year::all();
         $projectAll = Project::all();
-
 
         return view('Index.Home')
             ->with(['projectHome' => $projects, 'countProject' => count($projects), 'countAwards' => $award_count
