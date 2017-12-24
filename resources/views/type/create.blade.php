@@ -17,7 +17,7 @@
                     <div class="box box-info">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/Index/home" class="logo">กลับไปหน้าหลัก</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/type">เพิ่มประเภทโครงงาน</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/type">กลับไปหน้าจัดการประเภทโครงงาน</a></li>
 
                         </ol>
                         <div class="box-header with-border">
@@ -32,7 +32,7 @@
                                     <label class="col-sm-2 control-label">ชื่อประเภทโครงงาน</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text"
+                                        <input required  type="text"
                                                name="type[name]"
                                                value=""
                                                class="form-control" placeholder="ชื่อประเภทโครงงาน">
@@ -42,7 +42,7 @@
                                 <!-- /.box-body -->
                                 <div class="box-footer">
                                     <button type="submit" class="btn btn-info">ตกลง</button>
-                                    <button type="submit" class="btn btn-default">ยกเลิก</button>
+                                    <button href="/admin/type" class="btn btn-default">ยกเลิก</button>
 
                                 </div>
                                 <!-- /.box-footer -->

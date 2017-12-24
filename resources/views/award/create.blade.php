@@ -16,7 +16,7 @@
                     <div class="box box-info">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/Index/home" class="logo">กลับไปหน้าหลัก</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/award">จัดการรางวัล</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/award">กลับไปหน้าจัดการรางวัล</a></li>
 
                         </ol>
                         <div class="box-header with-border">
@@ -34,7 +34,7 @@
                                         <input required type="text"
                                                name="award[name_award]"
                                                value=""
-                                               class="form-control" placeholder="ชื่อสาขา">
+                                               class="form-control" placeholder="ชื่อรางวัล">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -44,7 +44,7 @@
                                         <input required type="text"
                                                name="award[year_award]"
                                                value=""
-                                               class="form-control" placeholder="ชื่อสาขา">
+                                               class="form-control" placeholder="ปีรางวัล">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -54,7 +54,7 @@
                                         <input required type="text"
                                                name="award[number]"
                                                value=""
-                                               class="form-control" placeholder="ชื่อสาขา">
+                                               class="form-control" placeholder="ที่รางวัล">
                                     </div>
                                 </div>
 

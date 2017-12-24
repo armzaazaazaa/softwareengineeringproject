@@ -5,7 +5,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                แก้ไขประเภทโครงงาน {{$branch->name}}
+                แก้ไขรางวัล {{$branch->name}}
             </h1>
         </section>
 

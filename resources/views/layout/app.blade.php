@@ -115,7 +115,10 @@
                         </li>
                         <li>
                             <a href="{{ url('/logout') }}"
+
                                onclick="event.preventDefault();
+
+
                                                      document.getElementById('logout-form').submit();">
                                 {{Auth::user()->name}} Logout
                             </a>
@@ -267,6 +270,13 @@
 <script src="/js/jquery.fileupload-validate.js"></script>
 <!-- Swiper JS -->
 <script src="/dist/swiper/js/swiper.min.js"></script>
+
+
+
+
+
+
+
 
 @yield('javascript')
 @yield('scripts')

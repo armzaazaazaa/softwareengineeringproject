@@ -15,6 +15,12 @@
                 <div class="col-md-12">
                     <div class="box box-info">
                         <div class="box-header with-border">
+
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/Index/home" class="logo">กลับไปหน้าหลัก</a></li>
+                                <li class="breadcrumb-item"><a href="/admin/year">กลับไปหน้าจัดการปีการศึกษา</a></li>
+
+                            </ol>
                             <h3 class="box-title">เพิ่ม</h3>
                         </div>
                         <!-- /.box-header -->
@@ -23,13 +29,13 @@
                             <div class="box-body">
                                 {{csrf_field()}}
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">ชื่ออาจารย์ที่ปรึกษา</label>
+                                    <label class="col-sm-2 control-label">ปีการศึกษา</label>
 
                                     <div class="col-sm-10">
                                         <input required type="text"
                                                name="year[name]"
                                                value=""
-                                               class="form-control" placeholder="ชื่ออาจารย์ที่ปรึกษา">
+                                               class="form-control" placeholder="ปีการศึกษา">
                                     </div>
                                 </div>
 

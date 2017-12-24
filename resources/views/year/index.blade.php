@@ -70,7 +70,7 @@
 @section('javascript')
     <script type="text/javascript">
         function deleteBranch(id) {
-            if(confirm("Do you want to delete this branch?(แน่ใจนะว่าจะลบ)")){
+            if(confirm("คุณต้องการจะลบใช้หรือไม่?")){
                 var form = document.getElementById('deleteBranch');
                 form.setAttribute('action',"/admin/year/"+id+"/delete")
                 form.submit()
