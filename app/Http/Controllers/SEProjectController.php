@@ -61,8 +61,18 @@ class SEProjectController extends Controller
         $advisor = Advisor::all();
         $years = Year::all();
         return view('Index.Home')
-            ->with(['projectHome' => $projects , 'countProject' => count($projects ),'countAwards' => $award_count
-            ,'project_type' => $project_types , 'awards' => $awards, 'adviser'=> $advisor, 'years'=>$years ,   'projectAll' => $projects]);
+            ->with(['projectHome' => $projects ,
+                'countProject' => count($projects ),
+                'countAwards' => $award_count,
+                'project_type' => $project_types ,
+                'awards' => $awards,
+                'adviser'=> $advisor,
+                'years'=>$years ,
+                'y'=>null,
+                'p'=>null,
+                'aw'=>null,
+                'ad'=>null,
+                'projectAll' => $projects]);
 
 
 

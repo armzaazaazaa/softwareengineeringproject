@@ -28,7 +28,7 @@
                                             ({{$project->name_project_eng}})</B>
 
 
-                                        @if($is_owner)
+                                        @if($is_owner || ( isset(Auth::user()->role)  && Auth::user()->role == 'admin'))
 
                                             <a class="btn btn-primary btn-xs"
                                                href="/admin/project/{{$project->id}}/edit"> แก้ไข </a>

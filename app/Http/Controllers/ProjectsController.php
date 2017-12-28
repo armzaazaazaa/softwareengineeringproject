@@ -40,9 +40,12 @@ class ProjectsController extends Controller
     public function create()
     {
         $project_types = ProjectType::all();
-        $awards = Awards::all();
+        $awards_used = ProjectAward::query()->pluck('award_id');
+        $awards = Awards::query()->whereNotIn('id',$awards_used)->get();/*->pluck('award_id')->toArray();*/
+        /*$awards = ProjectAward::select('name_award', 'id')->whereNotIn('id', $awardse)->get();/*----->*/
         $adviser = Advisor::all();
         $years = Year::all();
+
 
         $userEx = UserProject::all()->pluck('user_id')->toArray();
         $user = User::select('name', 'id', 'username')->whereNotIn('id', $userEx)->get();
@@ -114,7 +117,12 @@ class ProjectsController extends Controller
                     $project->project_id = $new_project->id;
                     $project->award_id = $awards;
                     $project->save();
+
+
                 }
+
+
+
             }
 
             $files = $request->file('file');
@@ -147,7 +155,7 @@ class ProjectsController extends Controller
     public function show($id)
     {
         $is_owner = false;
-
+        $is_admin = false;
         $user = Auth::user();
         if (isset($user)) {
             $userCheck = UserProject::query()
@@ -156,7 +164,10 @@ class ProjectsController extends Controller
                 ->first();
             if (isset($userCheck)) {
                 $is_owner = true;
+            }
 
+            if ($user->role === "admin") {
+                $is_admin = true;
             }
         }
 
@@ -165,8 +176,12 @@ class ProjectsController extends Controller
             ->where('id', $id)
             ->first();
 
-
-        return view('project.index', ['project' => $project, 'is_owner' => $is_owner]);
+        return view('project.index',
+            [
+                'project' => $project,
+                'is_owner' => $is_owner,
+                'is_admin' => $is_admin
+            ]);
     }
 
     /**
@@ -178,7 +193,7 @@ class ProjectsController extends Controller
     public function edit($id)
     {
         $is_owner = false;
-
+        $is_admin = false;
         $user = Auth::user();
         if (isset($user)) {
             $userCheck = UserProject::query()
@@ -187,6 +202,10 @@ class ProjectsController extends Controller
                 ->first();
             if (isset($userCheck)) {
                 $is_owner = true;
+            }
+
+            if ($user->role === "admin") {
+                $is_admin = true;
             }
         }
         $project = Project::query()
@@ -214,20 +233,30 @@ class ProjectsController extends Controller
 
 
         $project_types = ProjectType::all();
-        $awards = Awards::all();
+        /*$awards = Awards::all();*/
+        $awards_used = ProjectAward::query()
+            ->whereNotIn('award_id',$project_award)
+            ->pluck('award_id');
+        $awards = Awards::query()->whereNotIn('id',$awards_used)->get();
         $adviser = Advisor::all();
         $years = Year::all();
         $user = User::select('name', 'id', 'username')->get();
 
 
-        if (!$is_owner) {
+        if (!$is_owner && !$is_admin) {
             return redirect("/admin/project/$id");
         }
         return view('project.edit')
-            ->with(['project_type' => $project_types, 'awards' => $awards,
-                'adviser' => $adviser, 'years' => $years, 'users' => $user, 'project' => $project,
-                'project_user' => $project_user, 'project_adviser_main' => $project_adviser_main,
-                'project_adviser_sub' => $project_adviser_sub , 'project_award' => $project_award]);
+            ->with(['project_type' => $project_types,
+                'awards' => $awards,
+                'adviser' => $adviser,
+                'years' => $years,
+                'users' => $user,
+                'project' => $project,
+                'project_user' => $project_user,
+                'project_adviser_main' => $project_adviser_main,
+                'project_adviser_sub' => $project_adviser_sub ,
+                'project_award' => $project_award]);
     }
 
     /**
@@ -315,9 +344,19 @@ class ProjectsController extends Controller
         $years = Year::all();
         $projectAll = Project::all();
 
+        //return $request->year;
         return view('Index.Home')
-            ->with(['projectHome' => $projects, 'countProject' => count($projects), 'countAwards' => $award_count
-                , 'project_type' => $project_types, 'awards' => $awards, 'adviser' => $advisor, 'years' => $years,
+            ->with(['projectHome' => $projects,
+                'countProject' => count($projects),
+                'countAwards' => $award_count,
+                'project_type' => $project_types,
+                'y'=>$request->year,
+                'p'=>$request->projecttype,
+                'aw'=>$request->award,
+                'ad'=>$request->advisor,
+                'awards' => $awards,
+                'adviser' => $advisor,
+                'years' => $years,
                 'projectAll' => $projectAll]);
 
     }

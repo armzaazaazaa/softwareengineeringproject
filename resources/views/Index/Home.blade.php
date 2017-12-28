@@ -76,9 +76,15 @@
                                 <div class="form-group">
                                     <label>ประเภทโครงงาน</label>
                                     <select class="form-control" name="projecttype" id="projecttype">
-                                        <option value="-1">All</option>
+                                        <option value="-1">เลือกทั้งหมด</option>
                                         @foreach($project_type as $type)
-                                            <option value="{{$type->id}}">{{$type->name}}</option>
+                                            @if ($p==$type->id && $p!=null)
+                                                <option selected value="{{$type->id}}">{{$type->name}}</option>
+                                            @else
+
+                                                <option value="{{$type->id}}">{{$type->name}}</option>
+                                            @endif
+                                          {{--  <option value="{{$type->id}}">{{$type->name}}</option>--}}
                                         @endforeach
                                     </select>
                                 </div>
@@ -88,9 +94,15 @@
                                 <div class="form-group">
                                     <label>รางวัลโครงงาน</label>
                                     <select class="form-control" name="award" id="award">
-                                        <option value="-1">All</option>
+                                        <option value="-1">เลือกทั้งหมด</option>
                                         @foreach($awards as $award)
-                                            <option value="{{$award->id}}">{{$award->name_award}}</option>
+                                                @if ($aw==$award->id && $aw!=null)
+                                                    <option selected value="{{$award->id}}">{{$award->name_award}}</option>
+                                                @else
+
+                                                    <option value="{{$award->id}}">{{$award->name_award}}</option>
+                                                @endif
+                                           {{-- <option value="{{$award->id}}">{{$award->name_award}}</option>--}}
                                         @endforeach
                                     </select>
                                 </div>
@@ -100,9 +112,15 @@
                                 <div class="form-group">
                                     <label>ปีการศึกษา</label>
                                     <select class="form-control" name="year" id="year">
-                                        <option value="-1">All</option>
+                                        <option value="-1">เลือกทั้งหมด</option>
                                         @foreach($years as $year)
-                                            <option value="{{$year->id}}">{{$year->name}}</option>
+                                            @if ($y==$year->id && $y!=null)
+                                                <option selected value="{{$year->id}}">{{$year->name}}</option>
+                                            @else
+
+                                                <option value="{{$year->id}}">{{$year->name}}</option>
+                                            @endif
+                                            {{--<option value="{{$year->id}}">{{$year->name}}</option>--}}
                                         @endforeach
                                     </select>
                                 </div>
@@ -112,9 +130,15 @@
                                 <div class="form-group">
                                     <label>อาจารย์ที่ปรึกษา</label>
                                     <select class="form-control" name="adviser_id" id="adviser">
-                                        <option value="-1">All</option>
+                                        <option value="-1">เลือกทั้งหมด</option>
                                         @foreach($adviser as $advisors)
-                                            <option value="{{$advisors->id}}">{{$advisors->name}}</option>
+                                            @if ($ad==$advisors->id && $ad!=null)
+                                                <option selected value="{{$advisors->id}}">{{$award->name}}</option>
+                                            @else
+
+                                                <option value="{{$advisors->id}}">{{$advisors->name}}</option>
+                                            @endif
+                                           {{-- <option value="{{$advisors->id}}">{{$advisors->name}}</option>--}}
                                         @endforeach
                                     </select>
                                 </div>
@@ -123,7 +147,7 @@
                                 <div class="form-group">
                                     <label>ชื่อโครงงาน</label>
                                     <select class="form-control" name="projects" id="projects">
-                                        <option value="-1">All</option>
+                                        <option value="-1">เลือกทั้งหมด</option>
                                         @foreach($projectAll as $project)
                                             <option value="{{$project->id}}">{{$project->name_project_th}}</option>
                                         @endforeach
@@ -153,27 +177,32 @@
                             {{--php--}}
 
                             <div class="col-md-4">
+
+
                                 <a href="/admin/project/{{$data->id}}">
                                     <div class="box box-widget widget-user">
                                         <div class="widget-user-header bg-aqua-active">
+                                            @if($data->awards && count($data->awards) > 0)
+                                            <i class="glyphicon glyphicon-tower"></i>
+                                            @endif
 
                                             {{--style="background: url('../dist/img/photo1.png') center center;">--}}
                                             <h3 class="direct-text">{{$data->name_project_th}}</h3>
                                             <h5 class="description-text">{{$data->name_project_eng}}</h5>
                                         </div>
                                         <div class="widget-user-image">
-                                            {{--<img class="img-circle"
-                                                 src="/images/uploads/{{$data->image[0]['name_image']}}"
+                                           {{-- <img class="img-circle"
+                                                 src="/images/uploads/{{{$data->name_image]}}"
                                                  alt="User Avatar">--}}
                                         </div>
                                         <div class="box-footer">
                                             <div class="row">
-                                                {{--<div class="col-sm-6 border-right">
+                                                <div class="col-sm-6 border-right">
                                                     <div class="description-block">
-                                                        <h5 class="description-header">ปี</h5>
-                                                        <span class="description-text">{{$data->years}}</span>
+
+                                                     {{--   <span class="description-text">{{$data->awardDetail->name_award}}</span>--}}
                                                     </div>
-                                                </div>--}}
+                                                </div>
 
                                                 <div class="col-sm-6">
                                                     <div class="description-block">
