@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\Awards;
+use App\Models\ProjectAward;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AwardController extends Controller
 {
@@ -13,9 +15,14 @@ class AwardController extends Controller
      */
     public function index()
     {
-        $awards = Awards::all();
+        $awards = ProjectAward::select('*','awards.id')
+            ->rightjoin('awards', 'project_awards.award_id', '=', 'awards.id')
+            ->leftjoin('projects', 'project_awards.project_id', '=', 'projects.id')
+            ->get();
+
         return view('award.index')
             ->with('awards', $awards);
+
     }
 
     /**

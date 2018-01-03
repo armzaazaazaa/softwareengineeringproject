@@ -10,4 +10,5 @@ class Awards extends Model
     protected $fillable = ["name_award","year_award","number"];
 
 
+
 }

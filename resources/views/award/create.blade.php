@@ -28,7 +28,7 @@
                             <div class="box-body">
                                 {{csrf_field()}}
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">ชื่อรางวัลา</label>
+                                    <label class="col-sm-2 control-label">ชื่อรางวัล</label>
 
                                     <div class="col-sm-10">
                                         <input required type="text"

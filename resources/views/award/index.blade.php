@@ -38,6 +38,8 @@
                                     <th>ชื่อรางวัล</th>
                                     <th>ปีรางวัล</th>
                                     <th>ลำดับรางวัล</th>
+                                    <th>โครงงานที่ได้รับรางวัล</th>
+
 
                                     <th>การจัดการ</th>
                                 </tr>
@@ -49,6 +51,7 @@
                                         <td>{{$data->name_award}}</td>
                                         <td>{{$data->year_award}}</td>
                                         <td>{{$data->number}}</td>
+                                        <td> <a href="/admin/project/{{$data->project_id}}">{{$data->name_project_th}} </a> </td>
                                         <td>
                                             <a href="/admin/award/{{$data->id}}/edit" class="btn btn-success">แก้ไข</a>
                                             <button onclick="deleteBranch({{$data->id}})" type="button"
